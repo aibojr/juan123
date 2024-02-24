@@ -2,7 +2,15 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-st.header("Welcome to XOR Cipher!")
+st.set_page_config(
+        page_title="XOR Ciphe",
+        page_icon="🔒",
+        layout="wide"
+    )
+
+st.header("Welcome to XOR Cipher!🔒🔒")
+
+st.sidebar.write("XOR Cipher!🔒🔒")
 
 
 def xor_encrypt(plaintext, key):
@@ -35,17 +43,20 @@ def xor_decrypt(ciphertext, key):
     return xor_encrypt(ciphertext, key)  # XOR decryption is the same as encryption
 
 # Example usage:
-plaintext = byte(st.text_area("Plaintext:"))
-key = byte(st.text_area("Key:"))
+plaintext = bytes(st.text_area("Plaintext:").encode())
+key = bytes(st.text_area("Key:").encode())
 
 if st.button("Submit"):
     if plaintext != key:
         if len(plaintext.decode()) >= len(key.decode()):
-            ciphertext = xor_encrypt(plaintext, key)
-            st.write("Ciphertext:", ciphertext.decode())
-            decrypted = xor_decrypt(ciphertext, key)
-            st.write("Decrypted:", decrypted.decode())
+            try:
+                ciphertext = xor_encrypt(plaintext, key)
+                st.write("Ciphertext:", ciphertext.decode())
+                decrypted = xor_decrypt(ciphertext, key)
+                st.write("Decrypted:", decrypted.decode())
+            except:
+                st.error("Invalid Key!")
         else:
-            st.write(f"Plaintext length should be equal or greater than the length of key")
+            st.warning(f"Plaintext length should be equal or greater than the length of key")
     else:
-        st.write(f"Plaintext should not be equal to the key")
+        st.warning(f"Plaintext should not be equal to the key")
